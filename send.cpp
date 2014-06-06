@@ -24,7 +24,7 @@ int main(int argc, char *argv[]) {
 	RCSwitch mySwitch = RCSwitch();
 	mySwitch.enableTransmit(PIN);
     
-    switch(command) {
+/*    switch(command) {
         case 1:
             mySwitch.switchOn(systemCode, unitCode);
             break;
@@ -35,5 +35,14 @@ int main(int argc, char *argv[]) {
             printf("command[%i] is unsupported\n", command);
             return -1;
     }
-	return 0;
+*/
+
+	mySwitch.setPulseLength(710); 
+	mySwitch.setProtocol(2); 
+	mySwitch.send(250376579, 32); 
+  	delay(1000);  
+  	mySwitch.send(32272771, 32); 
+  	delay(1000); 
+
+    return 0;
 }

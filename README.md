@@ -33,3 +33,10 @@ Pierwszy lepszy przykład z brzegu:
   - http://www.raspberrypi.org/forums/viewtopic.php?f=37&t=65587
 
 Dla mnie wazne bylo to, ze moge uzyc ten sam kod z Arduino w tym projekcie.
+
+
+Do poczytania:
+http://blog.rot13.org/2013/10/433-mhz-power-sockets-with-rc-switch-arduino-or-raspberry-pi.html 
+http://www.homautomation.org/2013/09/21/433mhtz-rf-communication-between-arduino-and-raspberry-pi/ 
+http://www.mikrocontroller.net/topic/252895 (niemiecki)	
+

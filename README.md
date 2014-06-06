@@ -29,5 +29,7 @@ Zapewne sa wygodniejsze/nowsze narzedzia dla Raspberry Pi. Poszukaj dla siebie m
 Pierwszy lepszy przykład z brzegu:
   - http://ninjablocks.com/blogs/how-to/7506204-adding-433-to-your-raspberry-pi
   - http://www.raspberrypi.org/forums/viewtopic.php?f=37&t=66946
+  - https://github.com/ninjablocks/433Utils
+  - http://www.raspberrypi.org/forums/viewtopic.php?f=37&t=65587
 
 Dla mnie wazne bylo to, ze moge uzyc ten sam kod z Arduino w tym projekcie.

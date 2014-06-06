@@ -1,6 +1,6 @@
 /*
   RCSwitch - Arduino libary for remote control outlet switches
-  Copyright (c) 2011 Suat Özgür.  All right reserved.
+  Copyright (c) 2011 Suat Ã–zgÃ¼r.  All right reserved.
   
   Contributors:
   - Andre Koehler / info(at)tomate-online(dot)de
@@ -191,7 +191,7 @@ char* RCSwitch::getCodeWordB(int nAddressCode, int nChannelCode, boolean bStatus
    int nReturnPos = 0;
    static char sReturn[13];
    
-   char* code[5] = { "FFFF", "0FFF", "F0FF", "FF0F", "FFF0" };
+   const char* code[5] = { "FFFF", "0FFF", "F0FF", "FF0F", "FFF0" };
    if (nAddressCode < 1 || nAddressCode > 4 || nChannelCode < 1 || nChannelCode > 4) {
     return '\0';
    }
@@ -226,7 +226,7 @@ char* RCSwitch::getCodeWordA(char* sGroup, int nChannelCode, boolean bStatus) {
    int nReturnPos = 0;
    static char sReturn[13];
 
-  char* code[6] = { "FFFFF", "0FFFF", "F0FFF", "FF0FF", "FFF0F", "FFFF0" };
+  const char* code[6] = { "FFFFF", "0FFFF", "F0FFF", "FF0FF", "FFF0F", "FFFF0" };
 
   if (nChannelCode < 1 || nChannelCode > 5) {
       return '\0';
@@ -445,6 +445,7 @@ void RCSwitch::enableReceive() {
   if (this->nReceiverInterrupt != -1) {
     RCSwitch::nReceivedValue = NULL;
     RCSwitch::nReceivedBitlength = NULL;
+    wiringPiISR(this->nReceiverInterrupt, INT_EDGE_BOTH, &handleInterrupt);
   }
 }
 
@@ -555,6 +556,41 @@ bool RCSwitch::receiveProtocol2(unsigned int changeCount){
 		return true;
 	}
 
+}
+
+void RCSwitch::handleInterrupt() {
+
+  static unsigned int duration;
+  static unsigned int changeCount;
+  static unsigned long lastTime;
+  static unsigned int repeatCount;
+
+  long time = micros();
+  duration = time - lastTime;
+
+  if (duration > 5000 && duration > RCSwitch::timings[0] - 200 && duration < RCSwitch::timings[0] + 200) {    
+    repeatCount++;
+    changeCount--;
+
+    if (repeatCount == 2) {
+                if (receiveProtocol1(changeCount) == false){
+                        if (receiveProtocol2(changeCount) == false){
+                                //failed
+                        }
+                }
+      repeatCount = 0;
+    }
+    changeCount = 0;
+  } else if (duration > 5000) {
+    changeCount = 0;
+  }
+
+  if (changeCount >= RCSWITCH_MAX_CHANGES) {
+    changeCount = 0;
+    repeatCount = 0;
+  }
+  RCSwitch::timings[changeCount++] = duration;
+  lastTime = time;  
 }
 
 /**

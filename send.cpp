@@ -36,11 +36,17 @@ int main(int argc, char *argv[]) {
             return -1;
     }
 */
-
+	//Ustaw parametry nadajnika
 	mySwitch.setPulseLength(710); 
 	mySwitch.setProtocol(2); 
+
+	//Wlacz (dwa urzadzenia)
 	mySwitch.send(250376579, 32); 
+	mySwitch.send(921465219,32); 
   	delay(1000);  
+
+	//Wylacz
+  	mySwitch.send(1055682947, 32); 
   	mySwitch.send(32272771, 32); 
   	delay(1000); 
 
